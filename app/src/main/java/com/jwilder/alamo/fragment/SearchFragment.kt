@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.jwilder.alamo.R
 import com.jwilder.alamo.databinding.FragmentSearchBinding
 import com.jwilder.alamo.viewmodel.PlacesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +35,8 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_SearchFragment_to_MapFragment)
+//            findNavController().navigate(R.id.action_SearchFragment_to_MapFragment)
+            viewModel.fetchNearbyPlaces("coffee")
         }
     }
 
