@@ -12,6 +12,7 @@ interface PlacesWebservice {
         @Query("client_secret") clientSecret: String,
         @Query("near") near: String,
         @Query("query") searchTerm: String,
-        @Query("limit") limit: Int
+        @Query("limit") limit: Int,
+        @Query("v") version: Int
     ): Response<PlacesResponseModel>
 }

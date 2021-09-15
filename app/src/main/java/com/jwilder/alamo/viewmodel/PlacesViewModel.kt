@@ -29,7 +29,8 @@ class PlacesViewModel @Inject constructor(
                     "V2VAMQKQWVDWNGJAOUG3XUQCMGAVK5P05MANPPMATKKHLRTV",
                     "Austin,+TX",
                     searchTerm,
-                    20
+                    20,
+                    20180323
                 )
                 val body = response.body()
                 if (response.isSuccessful && body != null) {
