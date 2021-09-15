@@ -14,5 +14,5 @@ interface PlacesWebservice {
         @Query("query") searchTerm: String,
         @Query("limit") limit: Int,
         @Query("v") version: Int
-    ): Response<PlacesResponseModel>
+    ): Response<ResponseWrapper>
 }

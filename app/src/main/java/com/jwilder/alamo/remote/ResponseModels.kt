@@ -3,7 +3,17 @@ package com.jwilder.alamo.remote
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class PlacesResponseModel(
+data class ResponseWrapper(
+    val response: Response
+)
+
+@JsonClass(generateAdapter = true)
+data class Response(
+    val venues: List<Venue>
+)
+
+@JsonClass(generateAdapter = true)
+data class Venue(
     val id: String,
     val name: String,
     val location: Location,
@@ -12,14 +22,9 @@ data class PlacesResponseModel(
 
 @JsonClass(generateAdapter = true)
 data class Location(
-    val address: String,
-    val crossStreet: String,
-    val city: String,
-    val state: String,
-    val postalCode: String,
     val lat: Double,
     val lng: Double,
-    val distance: Double
+    val distance: Double? = 0.0
 )
 
 @JsonClass(generateAdapter = true)

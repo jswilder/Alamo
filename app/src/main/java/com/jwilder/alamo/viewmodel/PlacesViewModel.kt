@@ -32,9 +32,8 @@ class PlacesViewModel @Inject constructor(
                     20,
                     20180323
                 )
-                val body = response.body()
-                if (response.isSuccessful && body != null) {
-                    Log.d(TAG, body.toString())
+                if (response.isSuccessful) {
+                    Log.d(TAG, response.body().toString())
                 } else {
                     Log.d(TAG, "Failed")
                 }
