@@ -3,6 +3,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 
 android {
     compileSdk 30
@@ -45,6 +46,7 @@ dependencies {
 
     // Hilt (dependency injection)
     implementation("com.google.dagger:hilt-android:2.38.1")
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
 
     // Retrofit
@@ -62,6 +64,9 @@ dependencies {
     }
     //noinspection GradleCompatible
     implementation "com.android.support:support-fragment:26.1.0"
+
+    // Maps
+    'com.google.android.gms:play-services-maps:17.0.1'
 }
 
 kapt {
