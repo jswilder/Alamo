@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MapsFragment : Fragment() {
 
-    val viewModel: VenuesSharedViewModel by viewModels()
+    val viewModel: VenuesSharedViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +57,4 @@ class MapsFragment : Fragment() {
     companion object {
         val austin = LatLng(30.2672, 97.7431)
     }
-
-    // 30.2672° N, 97.7431° W
-    // (30.2672° N, 97.7431° W)
 }
