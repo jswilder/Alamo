@@ -3,12 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/drawable/ic_heart.xml" value="0.346875" />
+        <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/drawable/ic_heart_filled.xml" value="0.346875" />
+        <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/drawable/ic_launcher_background.xml" value="0.346875" />
+        <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/drawable/ic_map.xml" value="0.346875" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/activity_main.xml" value="0.38722826086956524" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/content_main.xml" value="0.38722826086956524" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/fragment_detail.xml" value="0.28958333333333336" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/fragment_first.xml" value="0.38722826086956524" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/fragment_map.xml" value="0.38722826086956524" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/fragment_search.xml" value="0.3307291666666667" />
+        <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/venue_list_item.xml" value="0.3307291666666667" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/menu/menu_main.xml" value="0.3307291666666667" />
       </map>
     </option>
