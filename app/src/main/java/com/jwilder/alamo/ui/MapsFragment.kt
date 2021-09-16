@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.jwilder.alamo.R
@@ -40,21 +41,28 @@ class MapsFragment : Fragment() {
     }
 
     private val callback = OnMapReadyCallback { googleMap ->
-//        googleMap.addMarker(MarkerOptions().position(austin).title("Marker in Austin"))
         googleMap.addMarkersFromVM()
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(austin))
+        googleMap.moveCamera(
+            CameraUpdateFactory.newCameraPosition(
+                CameraPosition(
+                    austin,
+                    10f,
+                    0f,
+                    0f
+                )
+            )
+        )
     }
 
     private fun GoogleMap.addMarkersFromVM() {
         this.clear()
-        Log.d("JEREMY**","Add markers called\n\n${viewModel.venueList.value}")
         viewModel.venueList.value?.forEach {
-            Log.d("JEREMY**", "LAT ${it.location.lat} :: LONG ${it.location.lng}")
+            // TODO: Need an onClick
             this.addMarker(MarkerOptions().position(LatLng(it.location.lat, it.location.lng)))
         }
     }
 
     companion object {
-        val austin = LatLng(30.2672, 97.7431)
+        val austin = LatLng(30.2672, -97.7431)
     }
 }
