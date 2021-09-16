@@ -1,14 +1,12 @@
-package com.jwilder.alamo
+package com.jwilder.alamo.ui
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import com.jwilder.alamo.R
 import com.jwilder.alamo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

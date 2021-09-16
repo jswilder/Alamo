@@ -1,4 +1,4 @@
-package com.jwilder.alamo.fragment
+package com.jwilder.alamo.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jwilder.alamo.R
 import com.jwilder.alamo.VenueAdapter
 import com.jwilder.alamo.databinding.FragmentSearchBinding
-import com.jwilder.alamo.viewmodel.PlacesViewModel
+import com.jwilder.alamo.viewmodel.VenuesSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -25,7 +25,7 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    val viewModel: PlacesViewModel by viewModels()
+    val viewModel: VenuesSharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +54,7 @@ class SearchFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(searchViewListener)
 
         binding.mapsFAB.setOnClickListener {
-            findNavController().navigate(R.id.action_SearchFragment_to_MapFragment)
+            findNavController().navigate(R.id.action_SearchFragment_to_mapsFragment)
         }
     }
 

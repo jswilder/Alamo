@@ -16,7 +16,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
-class PlacesViewModel @Inject constructor(
+class VenuesSharedViewModel @Inject constructor(
     private val venuesRepository: VenuesRepository
 ) : ViewModel() {
 

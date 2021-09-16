@@ -1,4 +1,4 @@
-package com.jwilder.alamo.fragment
+package com.jwilder.alamo.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.jwilder.alamo.databinding.FragmentDetailBinding
-import com.jwilder.alamo.viewmodel.PlacesViewModel
+import com.jwilder.alamo.viewmodel.VenuesSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -19,7 +19,7 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
-    val viewModel: PlacesViewModel by viewModels()
+    val viewModel: VenuesSharedViewModel by viewModels()
 
 
     override fun onCreateView(
