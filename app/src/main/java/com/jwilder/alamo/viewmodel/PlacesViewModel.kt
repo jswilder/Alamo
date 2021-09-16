@@ -3,9 +3,10 @@ package com.jwilder.alamo.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.jwilder.alamo.remote.Venue
-import com.jwilder.alamo.repository.PlacesRepository
+import com.jwilder.alamo.repository.VenuesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,7 @@ import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class PlacesViewModel @Inject constructor(
-    private val placesRepository: PlacesRepository
+    private val venuesRepository: VenuesRepository
 ) : ViewModel() {
 
     private val job = Job()
@@ -28,10 +29,16 @@ class PlacesViewModel @Inject constructor(
         get() = _venueList
     private val _venueList = MutableLiveData<List<Venue>>()
 
-    fun fetchNearbyPlaces(searchTerm: String) {
+    // A simple live data transformation to control the visibility of the map FAB if the list of
+    // venues is null or empty
+    val showMapFAB: LiveData<Boolean> = Transformations.map(venueList) {
+        !it.isNullOrEmpty()
+    }
+
+    fun fetchNearbyVenues(searchTerm: String) {
         scope.launch {
             try {
-                val response = placesRepository.service.getNearbyPlaces(
+                val response = venuesRepository.service.getNearbyVenues(
                     "DVX5MDJMDM5BSMI0GNGVRPUVF3R00JEARTEBEFGP40ZXAHUD",
                     "V2VAMQKQWVDWNGJAOUG3XUQCMGAVK5P05MANPPMATKKHLRTV",
                     "Austin,+TX",
@@ -56,7 +63,15 @@ class PlacesViewModel @Inject constructor(
         }
     }
 
+    /**
+     * For clearing the LiveData when the search term is null or empty
+     */
+    fun clearVenuesList() {
+        _venueList.postValue(emptyList())
+    }
+
     companion object {
-        const val TAG = "JEREMY**"
+        // TODO: Remove when done
+        const val TAG = "ALAMO**LOG"
     }
 }

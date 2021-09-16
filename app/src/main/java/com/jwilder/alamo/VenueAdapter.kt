@@ -8,10 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jwilder.alamo.remote.Venue
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.withContext
 
-class VenueAdapter(private val dataSet: List<Venue>) : RecyclerView.Adapter<VenueAdapter.ViewHolder>() {
+class VenueAdapter() : RecyclerView.Adapter<VenueAdapter.ViewHolder>() {
+
+    private var dataSet = listOf<Venue>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val distanceTextView: TextView
@@ -19,6 +19,7 @@ class VenueAdapter(private val dataSet: List<Venue>) : RecyclerView.Adapter<Venu
         val categoryTextView: TextView
         val iconImageView: ImageView
         val favoriteImageView: ImageView
+
         init {
             // Define click listener for the ViewHolder's View.
             distanceTextView = view.findViewById(R.id.venueDistance)
@@ -39,6 +40,7 @@ class VenueAdapter(private val dataSet: List<Venue>) : RecyclerView.Adapter<Venu
             holder.distanceTextView.text = this.location.distance.toString()
             this.categories.firstOrNull()?.let {
                 holder.categoryTextView.text = it.name
+                // TODO: Resolve image loading issue
                 Glide.with(holder.iconImageView).load("${it.icon.prefix}${it.icon.suffix}")
                     .into(holder.iconImageView)
             }
@@ -47,4 +49,9 @@ class VenueAdapter(private val dataSet: List<Venue>) : RecyclerView.Adapter<Venu
     }
 
     override fun getItemCount() = dataSet.size
+
+    fun updateData(data: List<Venue>) {
+        this.dataSet = data
+        notifyDataSetChanged()
+    }
 }

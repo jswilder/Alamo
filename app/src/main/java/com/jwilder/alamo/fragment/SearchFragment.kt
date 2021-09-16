@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jwilder.alamo.R
 import com.jwilder.alamo.VenueAdapter
 import com.jwilder.alamo.databinding.FragmentSearchBinding
@@ -30,9 +32,17 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        binding.venuesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = VenueAdapter()
+        }
 
-        viewModel.venueList.observe(viewLifecycleOwner, Observer { list ->
-            binding.venuesRecyclerView.adapter = VenueAdapter(list)
+        viewModel.venueList.observe(viewLifecycleOwner, { list ->
+            (binding.venuesRecyclerView.adapter as VenueAdapter).updateData(list)
+        })
+
+        viewModel.showMapFAB.observe(viewLifecycleOwner, {
+            binding.mapsFAB.isVisible = it
         })
 
         return binding.root
@@ -41,9 +51,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.searchView.setOnSearchClickListener {
-            viewModel.fetchNearbyPlaces(binding.searchView.query.toString())
-        }
+        binding.searchView.setOnQueryTextListener(searchViewListener)
 
         binding.mapsFAB.setOnClickListener {
             findNavController().navigate(R.id.action_SearchFragment_to_MapFragment)
@@ -53,5 +61,32 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    /**
+     * Customer listener to handle text change and search submission
+     */
+    private val searchViewListener = object : SearchView.OnQueryTextListener {
+
+        // TODO: Add debouncing timer
+
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return query?.let {
+                viewModel.fetchNearbyVenues(it)
+                true
+            } ?: run {
+                false
+            }
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            return if (newText.isNullOrBlank()) {
+                viewModel.clearVenuesList()
+                false
+            } else {
+                viewModel.fetchNearbyVenues(newText)
+                true
+            }
+        }
     }
 }
