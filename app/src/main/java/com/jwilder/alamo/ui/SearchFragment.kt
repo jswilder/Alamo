@@ -93,9 +93,6 @@ class SearchFragment : Fragment() {
      * Customer listener to handle text change and search submission
      */
     private val searchViewListener = object : SearchView.OnQueryTextListener {
-
-        // TODO: Add debouncing timer
-
         override fun onQueryTextSubmit(query: String?): Boolean {
             return query?.let {
                 viewModel.fetchNearbyVenues(it)

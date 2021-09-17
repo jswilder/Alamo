@@ -9,11 +9,9 @@ import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.remote.Venue
 import com.jwilder.alamo.repository.VenuesRepository
 import com.jwilder.alamo.util.SingleLiveEvent
+import com.jwilder.alamo.util.debounce
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -45,30 +43,38 @@ class VenuesSharedViewModel @Inject constructor(
         !it.isNullOrEmpty()
     }
 
+    /**
+     * job to track whether or not we have already made a fetch call within the debounce delay
+     */
+    private var debounceJob: Job? = null
+
     fun fetchNearbyVenues(searchTerm: String) {
-        scope.launch {
-            try {
-                val response = venuesRepository.service.getNearbyVenues(
-                    "DVX5MDJMDM5BSMI0GNGVRPUVF3R00JEARTEBEFGP40ZXAHUD",
-                    "V2VAMQKQWVDWNGJAOUG3XUQCMGAVK5P05MANPPMATKKHLRTV",
-                    "Austin,+TX",
-                    searchTerm,
-                    20,
-                    20180323
-                )
-                if (response.isSuccessful) {
-                    response.body()?.response?.venues?.let {
-                        _venueList.postValue(it)
-                        Log.d(TAG, it.toString())
-                    } ?: run {
-                        // TODO: Error state
-                        Log.d(TAG, "Venues list is null")
+        if (debounceJob == null) {
+            debounceJob = scope.launch {
+                try {
+                    val response = venuesRepository.service.getNearbyVenues(
+                        "DVX5MDJMDM5BSMI0GNGVRPUVF3R00JEARTEBEFGP40ZXAHUD",
+                        "V2VAMQKQWVDWNGJAOUG3XUQCMGAVK5P05MANPPMATKKHLRTV",
+                        "Austin,+TX",
+                        searchTerm,
+                        20,
+                        20180323
+                    )
+                    if (response.isSuccessful) {
+                        response.body()?.response?.venues?.let {
+                            _venueList.postValue(it)
+                            Log.d(TAG, it.toString())
+                        } ?: run {
+                            Log.d(TAG, "Venues list is null")
+                        }
+                    } else {
+                        Log.d(TAG, "Response Failed")
                     }
-                } else {
-                    Log.d(TAG, "Response Failed")
+                } catch (e: Exception) {
+                    Log.d(TAG, e.message.toString())
                 }
-            } catch (e: Exception) {
-                Log.d(TAG, e.message.toString())
+                delay(DEBOUNCE_DELAY)
+                debounceJob = null
             }
         }
     }
@@ -90,7 +96,7 @@ class VenuesSharedViewModel @Inject constructor(
     }
 
     companion object {
-        // TODO: Remove when done
-        const val TAG = "ALAMO**LOG"
+        private val TAG = VenuesSharedViewModel::class.java.simpleName
+        private const val DEBOUNCE_DELAY = 1_000L
     }
 }
