@@ -1,28 +1,25 @@
 package com.jwilder.alamo.ui
 
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.jwilder.alamo.R
+import com.jwilder.alamo.remote.Venue
+import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.viewmodel.VenuesSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MapsFragment : Fragment() {
+class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
 
     val viewModel: VenuesSharedViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
@@ -31,6 +28,15 @@ class MapsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        viewModel.navigationSingleLiveEvent.observe(viewLifecycleOwner, {
+            when (it) {
+                NavigationEvent.NavigateToVenueDetails -> {
+                    findNavController().navigate(R.id.action_mapsFragment_to_detailFragment)
+                }
+            }
+        })
+
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 
@@ -41,29 +47,14 @@ class MapsFragment : Fragment() {
     }
 
     private val callback = OnMapReadyCallback { googleMap ->
-        context?.let {
-            googleMap.setInfoWindowAdapter(MapMarkerInfoAdapter(it))
-        }
-        googleMap.setOnInfoWindowClickListener {
-            Log.d("JEREMY**","${it.tag} Clicked")
-        }
+        googleMap.setOnInfoWindowClickListener(this)
         googleMap.addMarkersFromVM()
-        googleMap.moveCamera(
-            CameraUpdateFactory.newCameraPosition(
-                CameraPosition(
-                    austin,
-                    10f,
-                    0f,
-                    0f
-                )
-            )
-        )
+        googleMap.moveCamera(defaultCameraPosition)
     }
 
     private fun GoogleMap.addMarkersFromVM() {
         this.clear()
         viewModel.venueList.value?.forEach {
-            // TODO: Need an onClick
             val marker =
                 this.addMarker(
                     MarkerOptions().position(LatLng(it.location.lat, it.location.lng))
@@ -73,7 +64,24 @@ class MapsFragment : Fragment() {
         }
     }
 
+    /**
+     * OnClick method for the map marker info window (venue name bubble)
+     */
+    override fun onInfoWindowClick(marker: Marker) {
+        (marker.tag as? Venue)?.let {
+            viewModel.navigateToVenueDetailsFragment(it)
+        }
+    }
+
     companion object {
-        val austin = LatLng(30.2672, -97.7431)
+        private val austin = LatLng(30.2672, -97.7431)
+        val defaultCameraPosition: CameraUpdate = CameraUpdateFactory.newCameraPosition(
+            CameraPosition(
+                austin,
+                11f,
+                0f,
+                0f
+            )
+        )
     }
 }
