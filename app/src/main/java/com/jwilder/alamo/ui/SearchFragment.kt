@@ -131,8 +131,6 @@ class SearchFragment : Fragment() {
             val nameTextView: TextView = view.findViewById(R.id.venueName)
             val categoryTextView: TextView = view.findViewById(R.id.venueCategory)
             val iconImageView: ImageView = view.findViewById(R.id.venueIcon)
-
-            // TODO: Make a selector for favorite heart
             val favoriteImageView: ImageView = view.findViewById(R.id.favoriteIcon)
         }
 
