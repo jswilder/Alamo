@@ -1,6 +1,6 @@
 package com.jwilder.alamo.ui
 
-import android.content.res.Resources
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -17,10 +16,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.R
 import com.jwilder.alamo.databinding.FragmentSearchBinding
 import com.jwilder.alamo.remote.Venue
+import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.viewmodel.VenuesSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +41,7 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.venuesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = VenueAdapter { item -> adapterOnClick(item) }
+            adapter = VenueAdapter(requireContext()) { item -> adapterOnClick(item) }
         }
 
         viewModel.venueList.observe(viewLifecycleOwner, { list ->
@@ -116,7 +115,7 @@ class SearchFragment : Fragment() {
     /**
      * Adapter for the SearchFragment RecyclerView
      */
-    class VenueAdapter(val adapterOnClick: (Venue) -> Unit) :
+    class VenueAdapter(val context: Context, val adapterOnClick: (Venue) -> Unit) :
         RecyclerView.Adapter<VenueAdapter.ViewHolder>() {
 
         private var dataSet = listOf<Venue>()
@@ -144,8 +143,7 @@ class SearchFragment : Fragment() {
                 holder.distanceTextView.text = this.location.distance.toString()
                 this.categories.firstOrNull()?.let {
                     holder.categoryTextView.text = it.name
-                    // TODO: Resolve image loading issue
-                    Glide.with(holder.iconImageView).load("${it.icon.prefix}${it.icon.suffix}")
+                    Glide.with(context).load("${it.icon.prefix}64${it.icon.suffix}")
                         .into(holder.iconImageView)
                 }
                 holder.favoriteImageView.setOnClickListener {

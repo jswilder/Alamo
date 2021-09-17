@@ -5,11 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.remote.Venue
 import com.jwilder.alamo.repository.VenuesRepository
+import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.util.SingleLiveEvent
-import com.jwilder.alamo.util.debounce
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
