@@ -16,6 +16,7 @@
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/fragment_maps.xml" value="0.28958333333333336" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/fragment_search.xml" value="0.3307291666666667" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/marker_info_contents.xml" value="0.3234375" />
+        <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/venue_details_item.xml" value="0.5541666666666667" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/layout/venue_list_item.xml" value="0.3307291666666667" />
         <entry key="..\:/Downloads/AlamoCodingChallenge/app/src/main/res/menu/menu_main.xml" value="0.3307291666666667" />
       </map>
@@ -26,5 +27,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.5541666666666667" />
+      </ProjectState>
+    </option>
   </component>
 </project>

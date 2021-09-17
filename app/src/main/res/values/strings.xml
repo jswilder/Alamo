@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Alamo Coding Challenge</string>
     <string name="maps">Maps</string>
+    <string name="url">URL</string>
+    <string name="category">Category</string>
+    <string name="categories">Categories</string>
+
 
     <!-- Formatted Strings -->
     <string name="distance_formatted">%s meters away</string>

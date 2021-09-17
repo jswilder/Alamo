@@ -17,7 +17,8 @@ data class Venue(
     val id: String,
     val name: String,
     val location: Location,
-    val categories: List<Category> = emptyList()
+    val categories: List<Category> = emptyList(),
+    val delivery: Delivery?
 )
 
 @JsonClass(generateAdapter = true)
@@ -39,4 +40,9 @@ data class Category(
 data class Icon(
     val prefix: String,
     val suffix: String
+)
+
+@JsonClass(generateAdapter = true)
+data class Delivery(
+    val url: String
 )

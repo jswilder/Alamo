@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -49,7 +52,16 @@ class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
     private val callback = OnMapReadyCallback { googleMap ->
         googleMap.setOnInfoWindowClickListener(this)
         googleMap.addMarkersFromVM()
-        googleMap.moveCamera(defaultCameraPosition)
+        googleMap.moveCamera(
+            CameraUpdateFactory.newCameraPosition(
+                CameraPosition(
+                    AUSTIN,
+                    ZOOM_DEFAULT,
+                    TILT_DEFAULT,
+                    BEAR_DEFAULT
+                )
+            )
+        )
     }
 
     private fun GoogleMap.addMarkersFromVM() {
@@ -74,14 +86,9 @@ class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
     }
 
     companion object {
-        private val austin = LatLng(30.2672, -97.7431)
-        val defaultCameraPosition: CameraUpdate = CameraUpdateFactory.newCameraPosition(
-            CameraPosition(
-                austin,
-                11f,
-                0f,
-                0f
-            )
-        )
+        private val AUSTIN = LatLng(30.2672, -97.7431)
+        private const val ZOOM_DEFAULT = 12f
+        private const val TILT_DEFAULT = 0f
+        private const val BEAR_DEFAULT = 0f
     }
 }
