@@ -40,7 +40,7 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.venuesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = VenueAdapter(viewModel)
+            adapter = VenueAdapter { item -> adapterOnClick(item) }
         }
 
         viewModel.venueList.observe(viewLifecycleOwner, { list ->
@@ -77,6 +77,10 @@ class SearchFragment : Fragment() {
         _binding = null
     }
 
+    private fun adapterOnClick(venue: Venue) {
+        viewModel.navigateToVenueDetailsFragment(venue)
+    }
+
     /**
      * Customer listener to handle text change and search submission
      */
@@ -107,7 +111,7 @@ class SearchFragment : Fragment() {
     /**
      * Adapter for the SearchFragment RecyclerView
      */
-    class VenueAdapter(val viewModel: VenuesSharedViewModel) :
+    class VenueAdapter(val adapterOnClick: (Venue) -> Unit) :
         RecyclerView.Adapter<VenueAdapter.ViewHolder>() {
 
         private var dataSet = listOf<Venue>()
@@ -131,7 +135,7 @@ class SearchFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(dataSet[position]) {
                 holder.venueListItemLayout.setOnClickListener {
-                    viewModel.navigateToVenueDetailsFragment(this)
+                    adapterOnClick(this)
                 }
                 holder.nameTextView.text = this.name
                 holder.distanceTextView.text = this.location.distance.toString()
@@ -149,6 +153,7 @@ class SearchFragment : Fragment() {
 
         fun updateData(data: List<Venue>) {
             this.dataSet = data
+            // Would implement DiffUtil instead in a real app
             notifyDataSetChanged()
         }
     }
