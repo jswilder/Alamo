@@ -2,18 +2,18 @@ package com.jwilder.alamo.modules
 
 import com.jwilder.alamo.dao.VenueDao
 import com.jwilder.alamo.repository.VenuesRepository
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@HiltAndroidApp
+@Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
     @Singleton
-    public fun provideVenuesRepository(venueDAO: VenueDao) = VenuesRepository(venueDAO)
+    public fun provideVenuesRepository(venueDao: VenueDao) = VenuesRepository(venueDao)
 
 }

@@ -2,26 +2,25 @@ package com.jwilder.alamo.modules
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.jwilder.alamo.db.AppDatabase
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@HiltAndroidApp
+@Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(application: Application, roomCallback: RoomDatabase.Callback) =
+    fun provideDatabase(application: Application) =
         Room.databaseBuilder(
             application.applicationContext,
             AppDatabase::class.java,
             "favorites_database"
-        ).addCallback(roomCallback).build()
+        ).build()
 
     @Provides
     fun provides(db: AppDatabase) = db.venueDao()

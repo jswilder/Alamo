@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jwilder.alamo.R
 import com.jwilder.alamo.databinding.FragmentSearchBinding
-import com.jwilder.alamo.remote.Venue
 import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.viewmodel.VenuesSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,7 +83,7 @@ class SearchFragment : Fragment() {
     /**
      * The onClick listener to be passed as a lambda function to the RV adapter
      */
-    private fun adapterOnClick(venue: Venue) {
+    private fun adapterOnClick(venue: VenueUIModel) {
         viewModel.navigateToVenueDetailsFragment(venue)
     }
 
@@ -115,10 +114,10 @@ class SearchFragment : Fragment() {
     /**
      * Adapter for the SearchFragment RecyclerView
      */
-    class VenueAdapter(val context: Context, val adapterOnClick: (Venue) -> Unit) :
+    class VenueAdapter(val context: Context, val adapterOnClick: (VenueUIModel) -> Unit) :
         RecyclerView.Adapter<VenueAdapter.ViewHolder>() {
 
-        private var dataSet = listOf<Venue>()
+        private var dataSet = listOf<VenueUIModel>()
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val venueListItemLayout: ConstraintLayout =
@@ -154,7 +153,7 @@ class SearchFragment : Fragment() {
 
         override fun getItemCount() = dataSet.size
 
-        fun updateData(data: List<Venue>) {
+        fun updateData(data: List<VenueUIModel>) {
             this.dataSet = data
             // Would implement DiffUtil instead in a real app
             notifyDataSetChanged()

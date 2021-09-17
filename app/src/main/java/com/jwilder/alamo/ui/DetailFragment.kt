@@ -58,12 +58,16 @@ class DetailFragment : Fragment() {
     /**
      * Builds the list of items to show for a venue's details
      */
-    private fun buildDetailsList(venue: Venue, container: ViewGroup?, inflater: LayoutInflater) {
-        venue.delivery?.let {
+    private fun buildDetailsList(
+        venue: VenueUIModel,
+        container: ViewGroup?,
+        inflater: LayoutInflater
+    ) {
+        if (venue.url.isNotBlank()) {
             binding.venueDetailsContainer.addView(
                 getInflatedListItemView(
                     getString(R.string.url),
-                    it.url,
+                    venue.url,
                     container,
                     inflater
                 )
@@ -92,9 +96,9 @@ class DetailFragment : Fragment() {
             findViewById<TextView>(R.id.detailItemInfo).text = infoText
         }
 
-    private fun Venue.getFormattedLatLong() =
+    private fun VenueUIModel.getFormattedLatLong() =
         "&markers=${this.location.lat}%2c%20${this.location.lng}"
 
-    private fun Venue.getCategoriesConcat() =
+    private fun VenueUIModel.getCategoriesConcat() =
         this.categories.joinToString(",", transform = { category -> category.name })
 }

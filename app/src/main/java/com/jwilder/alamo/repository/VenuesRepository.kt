@@ -5,15 +5,17 @@ import com.jwilder.alamo.remote.Venue
 import com.jwilder.alamo.remote.VenuesWebService
 import com.jwilder.alamo.ui.VenueUIModel
 import okhttp3.OkHttpClient
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.lang.Exception
 import javax.inject.Inject
 
-class VenuesRepository @Inject constructor(
-    private val venueDao: VenueDao
-) {
+class VenuesRepository {
+
+    private val dao: VenueDao
+
+    @Inject constructor(venueDao: VenueDao) {
+        this.dao = venueDao
+    }
 
     private val client: OkHttpClient = OkHttpClient().newBuilder().build()
     private val retrofit = Retrofit.Builder()
@@ -39,7 +41,7 @@ class VenuesRepository @Inject constructor(
                 emptyList()
             } else {
                 val venues = response.body()?.response?.venues ?: emptyList()
-                val favorites = venueDao.getAll()
+                val favorites = dao.getAll()
                 mapResponseToVenueUIModel(venues, favorites)
             }
         } catch (e: Exception) {
@@ -60,6 +62,7 @@ class VenuesRepository @Inject constructor(
                 id = venue.id,
                 categories = venue.categories,
                 favorite = favoritesSet.contains(VenueEntity(venue.id)),
+                location = venue.location,
                 url = venue.delivery?.url ?: ""
             )
         }

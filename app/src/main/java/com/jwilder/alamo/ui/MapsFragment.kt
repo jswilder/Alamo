@@ -16,7 +16,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.jwilder.alamo.R
-import com.jwilder.alamo.remote.Venue
 import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.viewmodel.VenuesSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,7 +79,7 @@ class MapsFragment : Fragment(), GoogleMap.OnInfoWindowClickListener {
      * OnClick method for the map marker info window (venue name bubble)
      */
     override fun onInfoWindowClick(marker: Marker) {
-        (marker.tag as? Venue)?.let {
+        (marker.tag as? VenueUIModel)?.let {
             viewModel.navigateToVenueDetailsFragment(it)
         }
     }
