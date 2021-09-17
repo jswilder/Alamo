@@ -13,7 +13,8 @@ class VenuesRepository {
 
     private val dao: VenueDao
 
-    @Inject constructor(venueDao: VenueDao) {
+    @Inject
+    constructor(venueDao: VenueDao) {
         this.dao = venueDao
     }
 
@@ -49,19 +50,36 @@ class VenuesRepository {
         }
     }
 
+    /**
+     * Adds the venue id to the favorites table
+     */
+    suspend fun favoriteVenue(id: String) {
+        dao.insertAll(VenueEntity(id))
+    }
+
+    /**
+     * Removes tjhe venue id from the favorites table
+     */
+    suspend fun unfavorite(id: String) {
+        dao.delete(VenueEntity(id))
+    }
+
     private fun mapResponseToVenueUIModel(
         venues: List<Venue>,
         favorites: List<VenueEntity>
     ): List<VenueUIModel> {
         // Convert favorites list to map for faster lookup
-        val favoritesSet = favorites.toSet()
+        val set = mutableSetOf<String>()
+        for (favorite in favorites) {
+            set.add(favorite.id)
+        }
 
         return venues.map { venue ->
             VenueUIModel(
                 name = venue.name,
                 id = venue.id,
                 categories = venue.categories,
-                favorite = favoritesSet.contains(VenueEntity(venue.id)),
+                favorite = set.contains(venue.id),
                 location = venue.location,
                 url = venue.delivery?.url ?: ""
             )

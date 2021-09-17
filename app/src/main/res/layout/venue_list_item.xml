@@ -51,11 +51,15 @@
         app:layout_constraintTop_toBottomOf="@id/venueCategory"
         tools:text="2.1" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatToggleButton
         android:id="@+id/favoriteIcon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_heart_selector"
+        android:background="@drawable/ic_heart_selector"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

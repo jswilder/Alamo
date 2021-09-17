@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -40,7 +41,10 @@ class SearchFragment : Fragment() {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         binding.venuesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = VenueAdapter(requireContext()) { item -> adapterOnClick(item) }
+            adapter = VenueAdapter(
+                requireContext(),
+                { item -> adapterOnClick(item) },
+                { item -> favoriteButtonOnClick(item) })
         }
 
         viewModel.venueList.observe(viewLifecycleOwner, { list ->
@@ -88,6 +92,13 @@ class SearchFragment : Fragment() {
     }
 
     /**
+     * The onClick listener to be used for the favorite/unfavorite toggle
+     */
+    private fun favoriteButtonOnClick(venue: VenueUIModel) {
+        viewModel.toggleFavorite(venue)
+    }
+
+    /**
      * Customer listener to handle text change and search submission
      */
     private val searchViewListener = object : SearchView.OnQueryTextListener {
@@ -114,7 +125,11 @@ class SearchFragment : Fragment() {
     /**
      * Adapter for the SearchFragment RecyclerView
      */
-    class VenueAdapter(val context: Context, val adapterOnClick: (VenueUIModel) -> Unit) :
+    class VenueAdapter(
+        val context: Context,
+        val adapterOnClick: (VenueUIModel) -> Unit,
+        val favoriteOnClick: (VenueUIModel) -> Unit
+    ) :
         RecyclerView.Adapter<VenueAdapter.ViewHolder>() {
 
         private var dataSet = listOf<VenueUIModel>()
@@ -126,7 +141,7 @@ class SearchFragment : Fragment() {
             val nameTextView: TextView = view.findViewById(R.id.venueName)
             val categoryTextView: TextView = view.findViewById(R.id.venueCategory)
             val iconImageView: ImageView = view.findViewById(R.id.venueIcon)
-            val favoriteImageView: ImageView = view.findViewById(R.id.favoriteIcon)
+            val favoriteToggleButton: ToggleButton = view.findViewById(R.id.favoriteIcon)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
@@ -139,13 +154,16 @@ class SearchFragment : Fragment() {
                     adapterOnClick(this)
                 }
                 holder.nameTextView.text = this.name
-                holder.distanceTextView.text = this.location.distance.toString()
+                holder.distanceTextView.text =
+                    context.getString(R.string.distance_formatted, this.location.distance ?: 0)
                 this.categories.firstOrNull()?.let {
                     holder.categoryTextView.text = it.name
                     Glide.with(context).load("${it.icon.prefix}64${it.icon.suffix}")
                         .into(holder.iconImageView)
                 }
-                holder.favoriteImageView.setOnClickListener {
+                holder.favoriteToggleButton.isChecked = this.favorite
+                holder.favoriteToggleButton.setOnClickListener {
+                    favoriteOnClick(this)
                     it.isEnabled = !it.isEnabled
                 }
             }

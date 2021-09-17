@@ -56,6 +56,16 @@ class VenuesSharedViewModel @Inject constructor(
         }
     }
 
+    fun toggleFavorite(venue: VenueUIModel) {
+        scope.launch {
+            if (venue.favorite) {
+                venuesRepository.unfavorite(venue.id)
+            } else {
+                venuesRepository.favoriteVenue(venue.id)
+            }
+        }
+    }
+
     /**
      * For clearing the LiveData when the search term is null or empty
      */
