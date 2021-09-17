@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/SearchFragment"
         android:name="com.jwilder.alamo.ui.SearchFragment"
-        android:label="@string/search_fragment_label"
+        android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_SearchFragment_to_detailFragment"
@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.jwilder.alamo.ui.MapsFragment"
-        android:label="fragment_maps"
+        android:label="MapsFragment"
         tools:layout="@layout/fragment_maps" >
         <action
             android:id="@+id/action_mapsFragment_to_detailFragment"

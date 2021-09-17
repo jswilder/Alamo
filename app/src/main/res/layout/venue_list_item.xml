@@ -14,40 +14,48 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@color/secondaryTextColor" />
+        tools:src="@drawable/ic_map" />
 
     <TextView
         android:id="@+id/venueName"
+        style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@id/favoriteIcon"
         app:layout_constraintStart_toEndOf="@id/venueIcon"
-        app:layout_constraintTop_toTopOf="@id/venueIcon" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Jeremy's Coffee" />
 
     <TextView
         android:id="@+id/venueCategory"
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@id/venueName"
         app:layout_constraintStart_toStartOf="@id/venueName"
-        app:layout_constraintTop_toBottomOf="@id/venueName" />
+        app:layout_constraintTop_toBottomOf="@id/venueName"
+        tools:text="Coffee Shop" />
 
     <TextView
         android:id="@+id/venueDistance"
+        style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/venueName"
         app:layout_constraintStart_toStartOf="@id/venueName"
-        app:layout_constraintTop_toBottomOf="@id/venueCategory" />
-
+        app:layout_constraintTop_toBottomOf="@id/venueCategory"
+        tools:text="2.1" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/favoriteIcon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@drawable/ic_heart_outline"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_heart_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

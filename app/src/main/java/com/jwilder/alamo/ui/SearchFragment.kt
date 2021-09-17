@@ -1,5 +1,6 @@
 package com.jwilder.alamo.ui
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
@@ -15,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.jwilder.alamo.NavigationEvent
+import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.R
 import com.jwilder.alamo.databinding.FragmentSearchBinding
 import com.jwilder.alamo.remote.Venue
@@ -56,6 +58,9 @@ class SearchFragment : Fragment() {
                 is NavigationEvent.NavigateToVenueDetails -> {
                     findNavController().navigate(R.id.action_SearchFragment_to_detailFragment)
                 }
+                is NavigationEvent.NavigateToMapsFragment -> {
+                    findNavController().navigate(R.id.action_SearchFragment_to_mapsFragment)
+                }
             }
         })
 
@@ -68,7 +73,7 @@ class SearchFragment : Fragment() {
         binding.searchView.setOnQueryTextListener(searchViewListener)
 
         binding.mapsFAB.setOnClickListener {
-            findNavController().navigate(R.id.action_SearchFragment_to_mapsFragment)
+            viewModel.navigateToMapsFragment()
         }
     }
 
@@ -77,6 +82,9 @@ class SearchFragment : Fragment() {
         _binding = null
     }
 
+    /**
+     * The onClick listener to be passed as a lambda function to the RV adapter
+     */
     private fun adapterOnClick(venue: Venue) {
         viewModel.navigateToVenueDetailsFragment(venue)
     }
@@ -145,7 +153,9 @@ class SearchFragment : Fragment() {
                     Glide.with(holder.iconImageView).load("${it.icon.prefix}${it.icon.suffix}")
                         .into(holder.iconImageView)
                 }
-                // TODO: Add selection/deselection onClick
+                holder.favoriteImageView.setOnClickListener {
+                    it.isEnabled = !it.isEnabled
+                }
             }
         }
 

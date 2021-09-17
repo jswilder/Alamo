@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.jwilder.alamo.NavigationEvent
+import com.jwilder.alamo.util.NavigationEvent
 import com.jwilder.alamo.remote.Venue
 import com.jwilder.alamo.repository.VenuesRepository
 import com.jwilder.alamo.util.SingleLiveEvent
@@ -83,6 +83,10 @@ class VenuesSharedViewModel @Inject constructor(
     fun navigateToVenueDetailsFragment(venue: Venue) {
         _selectedVenue.postValue(venue)
         _navigationSingleLiveEvent.postValue(NavigationEvent.NavigateToVenueDetails)
+    }
+
+    fun navigateToMapsFragment() {
+        _navigationSingleLiveEvent.postValue(NavigationEvent.NavigateToMapsFragment)
     }
 
     companion object {
