@@ -41,6 +41,12 @@ class MapsFragment : Fragment() {
     }
 
     private val callback = OnMapReadyCallback { googleMap ->
+        context?.let {
+            googleMap.setInfoWindowAdapter(MapMarkerInfoAdapter(it))
+        }
+        googleMap.setOnInfoWindowClickListener {
+            Log.d("JEREMY**","${it.tag} Clicked")
+        }
         googleMap.addMarkersFromVM()
         googleMap.moveCamera(
             CameraUpdateFactory.newCameraPosition(
@@ -58,7 +64,12 @@ class MapsFragment : Fragment() {
         this.clear()
         viewModel.venueList.value?.forEach {
             // TODO: Need an onClick
-            this.addMarker(MarkerOptions().position(LatLng(it.location.lat, it.location.lng)))
+            val marker =
+                this.addMarker(
+                    MarkerOptions().position(LatLng(it.location.lat, it.location.lng))
+                        .title(it.name)
+                )
+            marker?.tag = it
         }
     }
 

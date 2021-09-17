@@ -28,6 +28,11 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
+
+        viewModel.selectedVenue.observe(viewLifecycleOwner, {
+            binding.textView.text = "${it.name} :: ${it.id}"
+        })
+
         return binding.root
     }
 

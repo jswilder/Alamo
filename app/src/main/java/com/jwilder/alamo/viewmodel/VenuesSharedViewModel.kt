@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.jwilder.alamo.NavigationEvent
 import com.jwilder.alamo.remote.Venue
 import com.jwilder.alamo.repository.VenuesRepository
+import com.jwilder.alamo.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +30,14 @@ class VenuesSharedViewModel @Inject constructor(
     val venueList: LiveData<List<Venue>>
         get() = _venueList
     private val _venueList = MutableLiveData<List<Venue>>()
+
+    val selectedVenue: LiveData<Venue>
+        get() = _selectedVenue
+    private val _selectedVenue = MutableLiveData<Venue>()
+
+    val navigationSingleLiveEvent: LiveData<NavigationEvent>
+        get() = _navigationSingleLiveEvent
+    private val _navigationSingleLiveEvent = SingleLiveEvent<NavigationEvent>()
 
     // A simple live data transformation to control the visibility of the map FAB if the list of
     // venues is null or empty
@@ -68,6 +78,11 @@ class VenuesSharedViewModel @Inject constructor(
      */
     fun clearVenuesList() {
         _venueList.postValue(emptyList())
+    }
+
+    fun navigateToVenueDetailsFragment(venue: Venue) {
+        _selectedVenue.postValue(venue)
+        _navigationSingleLiveEvent.postValue(NavigationEvent.NavigateToVenueDetails)
     }
 
     companion object {
