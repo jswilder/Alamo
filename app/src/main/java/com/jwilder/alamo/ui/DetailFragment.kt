@@ -1,5 +1,7 @@
 package com.jwilder.alamo.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +12,6 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.bumptech.glide.Glide
 import com.jwilder.alamo.R
 import com.jwilder.alamo.databinding.FragmentDetailBinding
-import com.jwilder.alamo.remote.Venue
 import com.jwilder.alamo.viewmodel.VenuesSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.Int.Companion.MAX_VALUE
@@ -63,14 +64,25 @@ class DetailFragment : Fragment() {
         container: ViewGroup?,
         inflater: LayoutInflater
     ) {
+
+        binding.favoriteIcon.setOnClickListener {
+            favoriteButtonOnClick(venue)
+            it.isEnabled = !it.isEnabled
+        }
+
         if (venue.url.isNotBlank()) {
+            val urlItem = getInflatedListItemView(
+                getString(R.string.url),
+                venue.url,
+                container,
+                inflater,
+                true
+            )
+            urlItem.findViewById<TextView>(R.id.detailInfoUrl).setOnClickListener {
+                urlOnClick(venue.url)
+            }
             binding.venueDetailsContainer.addView(
-                getInflatedListItemView(
-                    getString(R.string.url),
-                    venue.url,
-                    container,
-                    inflater
-                )
+                urlItem
             )
         }
         val catLabel = when (venue.categories.size) {
@@ -83,18 +95,59 @@ class DetailFragment : Fragment() {
                 getInflatedListItemView(it, venue.getCategoriesConcat(), container, inflater)
             )
         }
+
+        /**
+         * Adding dummy text to ensure there's enough detail to allow the collapsing toolbar to work
+         */
+        binding.venueDetailsContainer.addView(
+            getInflatedListItemView(
+                getString(R.string.lorem_ipsum_label),
+                getString(R.string.lorem_ipsum),
+                container,
+                inflater
+            )
+        )
+        binding.venueDetailsContainer.addView(
+            getInflatedListItemView(
+                getString(R.string.lorem_ipsum_label),
+                getString(R.string.lorem_ipsum),
+                container,
+                inflater
+            )
+        )
+    }
+
+    /**
+     * The onClick listener to be used for the favorite/unfavorite toggle
+     */
+    private fun favoriteButtonOnClick(venue: VenueUIModel) {
+        viewModel.toggleFavorite(venue)
+    }
+
+    /**
+     * The onClick listener used for opening an external browser
+     */
+    private fun urlOnClick(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
 
     private fun getInflatedListItemView(
         labelText: String,
         infoText: String,
         container: ViewGroup?,
-        inflater: LayoutInflater
-    ) =
+        inflater: LayoutInflater,
+        url: Boolean = false
+    ) = if (url) {
+        inflater.inflate(R.layout.venue_details_item_url, container, false).apply {
+            findViewById<TextView>(R.id.detailItemLabel).text = labelText
+            findViewById<TextView>(R.id.detailInfoUrl).text = infoText
+        }
+    } else {
         inflater.inflate(R.layout.venue_details_item, container, false).apply {
             findViewById<TextView>(R.id.detailItemLabel).text = labelText
             findViewById<TextView>(R.id.detailItemInfo).text = infoText
         }
+    }
 
     private fun VenueUIModel.getFormattedLatLong() =
         "&markers=${this.location.lat}%2c%20${this.location.lng}"

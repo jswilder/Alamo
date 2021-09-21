@@ -58,7 +58,7 @@ class VenuesRepository {
     }
 
     /**
-     * Removes tjhe venue id from the favorites table
+     * Removes the venue id from the favorites table
      */
     suspend fun unfavorite(id: String) {
         dao.delete(VenueEntity(id))
@@ -68,7 +68,7 @@ class VenuesRepository {
         venues: List<Venue>,
         favorites: List<VenueEntity>
     ): List<VenueUIModel> {
-        // Convert favorites list to map for faster lookup
+        // Convert favorites list to set for faster lookup
         val set = mutableSetOf<String>()
         for (favorite in favorites) {
             set.add(favorite.id)

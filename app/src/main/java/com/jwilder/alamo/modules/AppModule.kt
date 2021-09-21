@@ -14,6 +14,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    public fun provideVenuesRepository(venueDao: VenueDao) = VenuesRepository(venueDao)
-
+    fun provideVenuesRepository(venueDao: VenueDao) = VenuesRepository(venueDao)
 }
