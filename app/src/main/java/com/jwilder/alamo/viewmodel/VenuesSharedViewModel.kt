@@ -83,6 +83,6 @@ class VenuesSharedViewModel @Inject constructor(
     }
 
     companion object {
-r        private const val DEBOUNCE_DELAY = 1_000L
+        private const val DEBOUNCE_DELAY = 250L
     }
 }

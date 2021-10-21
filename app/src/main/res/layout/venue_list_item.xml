@@ -11,6 +11,8 @@
         android:id="@+id/venueIcon"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:tint="@color/iconColor"
+        android:tintMode="src_atop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,11 +47,24 @@
         style="@style/TextAppearance.AppCompat.Caption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/venueName"
         app:layout_constraintStart_toStartOf="@id/venueName"
         app:layout_constraintTop_toBottomOf="@id/venueCategory"
         tools:text="2.1" />
+
+    <TextView
+        android:id="@+id/venueAddress"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/venueName"
+        app:layout_constraintStart_toStartOf="@id/venueName"
+        app:layout_constraintTop_toBottomOf="@id/venueDistance"
+        tools:text="123 Apple Street"
+        tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatToggleButton
         android:id="@+id/favoriteIcon"
@@ -62,6 +77,7 @@
         android:textOn=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

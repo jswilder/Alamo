@@ -25,7 +25,8 @@ data class Venue(
 data class Location(
     val lat: Double,
     val lng: Double,
-    val distance: Double? = 0.0
+    val distance: Double? = 0.0,
+    val address: String?
 )
 
 @JsonClass(generateAdapter = true)

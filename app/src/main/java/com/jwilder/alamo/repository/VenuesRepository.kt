@@ -81,7 +81,8 @@ class VenuesRepository {
                 categories = venue.categories,
                 favorite = set.contains(venue.id),
                 location = venue.location,
-                url = venue.delivery?.url ?: ""
+                url = venue.delivery?.url ?: "",
+                address = venue.location.address
             )
         }
     }

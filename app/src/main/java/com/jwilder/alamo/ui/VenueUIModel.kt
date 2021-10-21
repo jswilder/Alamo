@@ -12,5 +12,6 @@ data class VenueUIModel(
     val categories: List<Category> = emptyList(),
     val favorite: Boolean,
     val location: Location,
-    val url: String
+    val url: String,
+    val address: String?
 )

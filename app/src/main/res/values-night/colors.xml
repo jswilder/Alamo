@@ -8,8 +8,7 @@
     <color name="secondaryDarkColor">#bd8400</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
-
-    <color name="iconColor">#000000</color>
-
     <color name="darkRed">#8B0000</color>
+
+    <color name="iconColor">#ffffff</color>
 </resources>

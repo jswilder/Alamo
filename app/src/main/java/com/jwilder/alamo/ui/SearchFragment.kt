@@ -140,6 +140,7 @@ class SearchFragment : Fragment() {
             val distanceTextView: TextView = view.findViewById(R.id.venueDistance)
             val nameTextView: TextView = view.findViewById(R.id.venueName)
             val categoryTextView: TextView = view.findViewById(R.id.venueCategory)
+            val addressTextView: TextView = view.findViewById(R.id.venueAddress)
             val iconImageView: ImageView = view.findViewById(R.id.venueIcon)
             val favoriteToggleButton: ToggleButton = view.findViewById(R.id.favoriteIcon)
         }
@@ -166,7 +167,16 @@ class SearchFragment : Fragment() {
                     favoriteOnClick(this)
                     it.isEnabled = !it.isEnabled
                 }
+                holder.addressTextView.visibility = View.GONE
+                this.location.address?.let { addr ->
+                    holder.addressTextView.isVisible(this.name.contains(ALAMO, true))
+                    holder.addressTextView.text = addr
+                }
             }
+        }
+
+        private fun TextView.isVisible(visible: Boolean) {
+            this.visibility = if (visible) View.VISIBLE else View.GONE
         }
 
         override fun getItemCount() = dataSet.size
@@ -175,6 +185,10 @@ class SearchFragment : Fragment() {
             this.dataSet = data
             // Would implement DiffUtil instead in a real app
             notifyDataSetChanged()
+        }
+
+        companion object {
+            private const val ALAMO = "Alamo"
         }
     }
 }
